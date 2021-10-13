@@ -47,21 +47,21 @@ android {
 
 dependencies {
     // Core
-    implementation("androidx.core:core-ktx:1.6.0")
+    implementation(AndroidX.core.ktx)
 
     // Jetpack Compose
-    implementation("androidx.compose.ui:ui:1.0.3")
-    implementation("androidx.compose.material:material:1.0.3")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.0.3")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.activity:activity-compose:1.3.1")
+    implementation(AndroidX.compose.ui)
+    implementation(AndroidX.compose.material)
+    implementation(AndroidX.compose.ui.toolingPreview)
+    implementation(AndroidX.lifecycle.runtimeKtx)
+    implementation(AndroidX.activity.compose)
 
     // Testing
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.0.3")
+    testImplementation(Testing.junit4)
+    androidTestImplementation(AndroidX.test.ext.junit)
+    androidTestImplementation(AndroidX.test.espresso.core)
+    androidTestImplementation(AndroidX.compose.ui.testJunit4)
 
     // Debugging
-    debugImplementation("androidx.compose.ui:ui-tooling:1.0.3")
+    debugImplementation(AndroidX.compose.ui.tooling)
 }
