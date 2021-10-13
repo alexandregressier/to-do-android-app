@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# IntelliJ IDEA
+.idea/
+*.ipr
+*.iml
+*.iws
+
+# Gradle
+.gradle
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android Studio
+/captures/
+local.properties
