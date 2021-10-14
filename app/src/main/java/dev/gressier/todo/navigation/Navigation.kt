@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.gressier.todo.data.models.TaskId
+import dev.gressier.todo.ui.screens.TaskListScreen
 
 class NavigateTo(navController: NavHostController) {
 
@@ -40,7 +41,7 @@ fun NavGraphBuilder.taskListComposable(
         arguments = listOf(
             navArgument("action") { type = NavType.StringType },
         )
-    ) {}
+    ) { TaskListScreen(navigateToTask) }
 }
 
 fun NavGraphBuilder.taskComposable(
