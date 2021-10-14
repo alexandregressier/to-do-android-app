@@ -8,6 +8,17 @@ pluginManagement {
         id("com.android.application") version "7.1.0-alpha13"
         id("com.android.library") version "7.1.0-alpha13"
         kotlin("android") version "1.5.30"
+        kotlin("kapt") version "1.5.30"
+    }
+    resolutionStrategy {
+        eachPlugin {
+            with (requested) {
+                when (id.id) {
+                    "dagger.hilt.android.plugin" ->
+                        useModule("com.google.dagger:hilt-android-gradle-plugin:$version")
+                }
+            }
+        }
     }
 }
 

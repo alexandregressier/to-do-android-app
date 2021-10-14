@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin") version "2.39.1"
 }
 
 android {
@@ -43,6 +45,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -55,6 +60,18 @@ dependencies {
     implementation(AndroidX.compose.ui.toolingPreview)
     implementation(AndroidX.lifecycle.runtimeKtx)
     implementation(AndroidX.activity.compose)
+
+    // Hilt
+    implementation(Google.dagger.hilt.android)
+    kapt(Google.dagger.hilt.compiler)
+
+    // Room
+    implementation(AndroidX.room.runtime)
+    kapt(AndroidX.room.compiler)
+    implementation(AndroidX.room.ktx)
+
+    // DataStore Preferences
+    implementation(AndroidX.dataStore.preferences)
 
     // Testing
     testImplementation(Testing.junit4)
