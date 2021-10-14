@@ -64,6 +64,9 @@ dependencies {
     implementation(Google.dagger.hilt.android)
     kapt(Google.dagger.hilt.compiler)
 
+    // Navigation
+    implementation(AndroidX.navigation.compose)
+
     // Room
     implementation(AndroidX.room.runtime)
     kapt(AndroidX.room.compiler)
