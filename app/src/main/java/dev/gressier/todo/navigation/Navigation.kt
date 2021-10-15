@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.gressier.todo.data.models.TaskId
-import dev.gressier.todo.ui.screens.TaskListScreen
+import dev.gressier.todo.ui.screens.tasklist.TaskListScreen
 
 class NavigateTo(navController: NavHostController) {
 
