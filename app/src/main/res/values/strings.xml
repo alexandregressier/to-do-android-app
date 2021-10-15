@@ -3,4 +3,8 @@
 
     <!-- Descriptions -->
     <string name="description_add_task">Add a task</string>
+    <string name="description_search_tasks">Search tasks</string>
+    <string name="description_sort_tasks">Sort tasks</string>
+    <string name="description_show_more">Show more</string>
+    <string name="description_delete_all_tasks">Delete all tasks</string>
 </resources>
