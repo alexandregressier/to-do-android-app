@@ -41,7 +41,7 @@ fun NavGraphBuilder.taskListComposable(
         arguments = listOf(
             navArgument("action") { type = NavType.StringType },
         )
-    ) { TaskListScreen(navigateToTask) }
+    ) { TaskListScreen() }
 }
 
 fun NavGraphBuilder.taskComposable(

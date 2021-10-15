@@ -11,27 +11,32 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import dev.gressier.todo.R
-import dev.gressier.todo.data.models.TaskId
 import dev.gressier.todo.ui.theme.fabBackgroundColor
 
 @Composable
-fun TaskListScreen(navigateToTask: (TaskId) -> Unit) {
+fun TaskListScreen(
+    onAddTaskFabClick: () -> Unit = {},
+) {
     Scaffold(
         topBar = { TaskListTopBar() },
         content = {},
-        floatingActionButton = { AddTaskFab { navigateToTask(-1) } },
+        floatingActionButton = { AddTaskFab(onAddTaskFabClick) },
     )
 }
 
 @Composable
 fun AddTaskFab(onClick: () -> Unit) {
     FloatingActionButton(onClick, backgroundColor = MaterialTheme.colors.fabBackgroundColor) {
-        Icon(Icons.Filled.Add, stringResource(R.string.description_add_task), tint = Color.White)
+        Icon(
+            Icons.Filled.Add,
+            stringResource(R.string.description_add_task),
+            tint = Color.White,
+        )
     }
 }
 
 @Preview
 @Composable
 private fun TaskListScreenPreview() {
-    TaskListScreen(navigateToTask = {})
+    TaskListScreen()
 }
