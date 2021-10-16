@@ -19,8 +19,8 @@ class NavigateTo(navController: NavHostController) {
             popUpTo("taskList/{action}") { inclusive = true }
         }
     }
-    val task: (TaskId) -> Unit = { taskId ->
-        navController.navigate("task/${taskId}")
+    val task: (TaskId?) -> Unit = { taskId ->
+        navController.navigate("task/${taskId ?: -1}")
     }
 }
 
@@ -39,14 +39,14 @@ fun SetupNavigation(
 
 fun NavGraphBuilder.taskListComposable(
     sharedViewModel: SharedViewModel,
-    navigateToTask: (TaskId) -> Unit,
+    navigateToTask: (TaskId?) -> Unit,
 ) {
     composable(
         route = "taskList/{action}",
         arguments = listOf(
             navArgument("action") { type = NavType.StringType },
         )
-    ) { TaskListScreen(sharedViewModel) }
+    ) { TaskListScreen(sharedViewModel, onAddTaskFabClick = { navigateToTask(null) }) }
 }
 
 fun NavGraphBuilder.taskComposable(
