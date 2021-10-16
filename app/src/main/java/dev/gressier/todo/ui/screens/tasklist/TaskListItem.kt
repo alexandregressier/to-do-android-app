@@ -56,9 +56,11 @@ fun TaskListItem(task: Task, navigateToTask: (TaskId) -> Unit = {}) {
 @Preview
 @Composable
 private fun TaskListItemPreview() {
-    TaskListItem(Task(
-        title = "Something to do",
-        description = "This is something that has to be done",
-        priority = Task.Priority.LOW
-    ))
+    TaskListItem(
+        Task(
+            title = "Something to do",
+            description = "This is something that has to be done",
+            priority = Task.Priority.LOW,
+        )
+    )
 }
