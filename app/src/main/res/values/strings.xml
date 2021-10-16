@@ -1,10 +1,20 @@
 <resources>
     <string name="app_name">To Do</string>
 
+    <!-- Title -->
+    <string name="title_task_list">Tasks</string>
+
     <!-- Descriptions -->
     <string name="description_add_task">Add a task</string>
+
     <string name="description_search_tasks">Search tasks</string>
     <string name="description_sort_tasks">Sort tasks</string>
     <string name="description_show_more">Show more</string>
     <string name="description_delete_all_tasks">Delete all tasks</string>
+
+    <string name="description_close_search">Close search</string>
+
+    <!-- Fields -->
+    <string name="placeholder_search_tasks">Search tasks...</string>
+
 </resources>

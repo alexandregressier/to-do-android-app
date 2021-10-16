@@ -1,5 +1,6 @@
 package dev.gressier.todo.ui.viewmodels
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,9 @@ class SharedViewModel @Inject constructor(
     private val _tasks = MutableStateFlow<List<Task>>(emptyList())
     val tasks: StateFlow<List<Task>> = _tasks
 
+    val searchTasksTopBarState = mutableStateOf(SearchTasksTopBarState.CLOSED)
+    val searchText = mutableStateOf("")
+
     fun getAllTasks() {
         viewModelScope.launch {
             taskRepository.getAllTasks.collect { tasks ->
@@ -27,3 +31,5 @@ class SharedViewModel @Inject constructor(
         }
     }
 }
+
+enum class SearchTasksTopBarState { OPENED, CLOSED, TRIGGERED }

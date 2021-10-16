@@ -7,18 +7,24 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import dev.gressier.todo.R
 import dev.gressier.todo.ui.theme.fabBackgroundColor
+import dev.gressier.todo.ui.viewmodels.SearchTasksTopBarState
+import dev.gressier.todo.ui.viewmodels.SharedViewModel
 
 @Composable
 fun TaskListScreen(
+    sharedViewModel: SharedViewModel,
     onAddTaskFabClick: () -> Unit = {},
 ) {
+    val searchTasksTopBarState: SearchTasksTopBarState by sharedViewModel.searchTasksTopBarState
+    val searchText: String by sharedViewModel.searchText
+
     Scaffold(
-        topBar = { TaskListTopBar() },
+        topBar = { TaskListTopBar(sharedViewModel, searchTasksTopBarState, searchText) },
         content = {},
         floatingActionButton = { AddTaskFab(onAddTaskFabClick) },
     )
@@ -35,8 +41,8 @@ fun AddTaskFab(onClick: () -> Unit) {
     }
 }
 
-@Preview
-@Composable
-private fun TaskListScreenPreview() {
-    TaskListScreen()
-}
+//@Preview
+//@Composable
+//private fun TaskListScreenPreview() {
+//    TaskListScreen()
+//}

@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.gressier.todo.data.models.TaskId
 import dev.gressier.todo.ui.screens.tasklist.TaskListScreen
+import dev.gressier.todo.ui.viewmodels.SharedViewModel
 
 class NavigateTo(navController: NavHostController) {
 
@@ -24,16 +25,20 @@ class NavigateTo(navController: NavHostController) {
 }
 
 @Composable
-fun SetupNavigation(navController: NavHostController) {
+fun SetupNavigation(
+    navController: NavHostController,
+    sharedViewModel: SharedViewModel,
+) {
     val navigateTo: NavigateTo = remember(navController) { NavigateTo(navController) }
 
     NavHost(navController, startDestination = "taskList/{action}") {
-        taskListComposable(navigateToTask = navigateTo.task)
-        taskComposable(navigateToTaskList = navigateTo.taskList)
+        taskListComposable(sharedViewModel, navigateTo.task)
+        taskComposable(navigateTo.taskList)
     }
 }
 
 fun NavGraphBuilder.taskListComposable(
+    sharedViewModel: SharedViewModel,
     navigateToTask: (TaskId) -> Unit,
 ) {
     composable(
@@ -41,7 +46,7 @@ fun NavGraphBuilder.taskListComposable(
         arguments = listOf(
             navArgument("action") { type = NavType.StringType },
         )
-    ) { TaskListScreen() }
+    ) { TaskListScreen(sharedViewModel) }
 }
 
 fun NavGraphBuilder.taskComposable(
