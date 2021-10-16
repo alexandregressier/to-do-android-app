@@ -18,7 +18,7 @@ fun TaskListContent(tasks: List<Task>, navigateToTask: (TaskId) -> Unit = {}) {
 
 @Preview
 @Composable
-private fun TaskListContentPreview() {
+private fun TaskListContent_Preview() {
     TaskListContent(List(5) { i ->
         Task(
             id = i.toLong(),

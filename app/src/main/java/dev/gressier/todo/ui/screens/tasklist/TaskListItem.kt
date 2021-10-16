@@ -55,7 +55,7 @@ fun TaskListItem(task: Task, navigateToTask: (TaskId) -> Unit = {}) {
 
 @Preview
 @Composable
-private fun TaskListItemPreview() {
+private fun TaskListItem_Preview() {
     TaskListItem(
         Task(
             title = "Something to do",

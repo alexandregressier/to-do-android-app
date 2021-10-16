@@ -204,12 +204,12 @@ fun SearchTasksAppBar(
 
 @Preview
 @Composable
-private fun DefaultTaskListTopBarPreview() {
+private fun DefaultTaskListTopBar_Preview() {
     DefaultTaskListTopBar()
 }
 
 @Preview
 @Composable
-private fun SearchTasksAppBarPreview() {
+private fun SearchTasksAppBar_Preview() {
     SearchTasksAppBar()
 }

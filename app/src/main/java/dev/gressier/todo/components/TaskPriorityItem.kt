@@ -33,6 +33,6 @@ fun TaskPriorityItem(taskPriority: Task.Priority) {
 
 @Preview
 @Composable
-private fun TaskPriorityItemPreview() {
+private fun TaskPriorityItem_Preview() {
     TaskPriorityItem(Task.Priority.HIGH)
 }
