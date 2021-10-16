@@ -2,10 +2,12 @@ package dev.gressier.todo.ui.theme
 
 import androidx.compose.ui.unit.dp
 
-val SmallPadding = 6.dp
-val MediumPadding = 8.dp
-val LargePadding = 12.dp
+val smallPadding = 6.dp
+val mediumPadding = 8.dp
+val largePadding = 12.dp
 
-val TopBarHeight = 56.dp
+val topBarHeight = 56.dp
 
-val TaskPriorityIndicatorSize = 16.dp
+val taskPriorityIndicatorSize = 16.dp
+
+val taskListItemElevation = 2.dp

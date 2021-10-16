@@ -124,7 +124,7 @@ fun ShowMoreAction(onClick: () -> Unit) {
             DropdownMenuItem({ onClick(); expanded = false }) {
                 Text(
                     stringResource(R.string.description_delete_all_tasks),
-                    Modifier.padding(start = LargePadding),
+                    Modifier.padding(start = largePadding),
                     style = Typography.subtitle2,
                 )
             }
@@ -142,9 +142,7 @@ fun SearchTasksAppBar(
     var deleteTextBeforeClosing by remember { mutableStateOf(false) }
 
     Surface(
-        Modifier
-            .fillMaxWidth()
-            .height(TopBarHeight),
+        Modifier.fillMaxWidth().height(topBarHeight),
         color = MaterialTheme.colors.topBarBackgroundColor,
         elevation = AppBarDefaults.TopAppBarElevation,
     ) {
