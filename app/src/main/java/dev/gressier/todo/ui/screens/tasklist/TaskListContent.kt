@@ -9,11 +9,14 @@ import dev.gressier.todo.data.models.TaskId
 
 @Composable
 fun TaskListContent(tasks: List<Task>, navigateToTask: (TaskId) -> Unit = {}) {
-    LazyColumn {
-        items(tasks, { it.id }) { task ->
-            TaskListItem(task, navigateToTask)
+    if (tasks.isNotEmpty())
+        LazyColumn {
+            items(tasks, { it.id }) { task ->
+                TaskListItem(task, navigateToTask)
+            }
         }
-    }
+    else
+        EmptyTaskListContent()
 }
 
 @Preview
