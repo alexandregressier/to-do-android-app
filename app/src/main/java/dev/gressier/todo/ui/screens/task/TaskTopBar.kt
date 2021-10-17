@@ -4,13 +4,14 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import dev.gressier.todo.R
 import dev.gressier.todo.navigation.NavigateToTaskListScreen
-import dev.gressier.todo.navigation.TaskListAction.ADD
-import dev.gressier.todo.navigation.TaskListAction.NO_ACTION
+import dev.gressier.todo.navigation.TaskListAction.*
 import dev.gressier.todo.ui.theme.topBarBackgroundColor
 import dev.gressier.todo.ui.theme.topBarContentColor
 
@@ -58,8 +59,55 @@ fun AddTaskAction(onClick: NavigateToTaskListScreen) {
 }
 
 @Composable
-fun EditTaskTopBar() {
-//    TopAppBar()
+fun EditTaskTopBar(
+    navigateToTaskListScreen: NavigateToTaskListScreen = {},
+) {
+    TopAppBar(
+        title = {
+            Text(stringResource(R.string.title_edit_task), color = MaterialTheme.colors.topBarContentColor)
+        },
+        navigationIcon = {
+            CancelEditTaskAction(navigateToTaskListScreen)
+        },
+        actions = {
+            DeleteTaskAction(navigateToTaskListScreen)
+            ConfirmEditTaskAction(navigateToTaskListScreen)
+        },
+        backgroundColor = MaterialTheme.colors.topBarBackgroundColor,
+    )
+}
+
+@Composable
+fun CancelEditTaskAction(onClick: NavigateToTaskListScreen) {
+    IconButton({ onClick(NO_ACTION) }) {
+        Icon(
+            Icons.Filled.Close,
+            stringResource(R.string.icon_close),
+            tint = MaterialTheme.colors.topBarContentColor,
+        )
+    }
+}
+
+@Composable
+fun DeleteTaskAction(onClick: NavigateToTaskListScreen) {
+    IconButton({ onClick(DELETE) }) {
+        Icon(
+            Icons.Filled.Delete,
+            stringResource(R.string.icon_delete),
+            tint = MaterialTheme.colors.topBarContentColor,
+        )
+    }
+}
+
+@Composable
+fun ConfirmEditTaskAction(onClick: NavigateToTaskListScreen) {
+    IconButton({ onClick(UPDATE) }) {
+        Icon(
+            Icons.Filled.Check,
+            stringResource(R.string.icon_check),
+            tint = MaterialTheme.colors.topBarContentColor,
+        )
+    }
 }
 
 @Preview
