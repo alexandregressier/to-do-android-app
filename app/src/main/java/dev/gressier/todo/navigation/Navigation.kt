@@ -51,6 +51,7 @@ fun NavGraphBuilder.taskListComposable(
             navArgument("action") { type = NavType.StringType },
         ),
     ) { backStackEntry ->
+        val taskListAction = backStackEntry.arguments?.getString("action")?.run(TaskListAction::valueOf)
         TaskListScreen(sharedViewModel, navigateToTask)
     }
 }
