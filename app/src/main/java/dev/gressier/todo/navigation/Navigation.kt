@@ -1,6 +1,5 @@
 package dev.gressier.todo.navigation
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavGraphBuilder
@@ -10,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.gressier.todo.data.models.TaskId
+import dev.gressier.todo.ui.screens.task.TaskScreen
 import dev.gressier.todo.ui.screens.tasklist.TaskListScreen
 import dev.gressier.todo.ui.viewmodels.SharedViewModel
 
@@ -37,7 +37,7 @@ fun SetupNavigation(
 
     NavHost(navController, startDestination = "taskList/{action}") {
         taskListComposable(sharedViewModel, navigateTo.taskScreen)
-        taskComposable(navigateTo.taskListScreen)
+        taskComposable(sharedViewModel, navigateTo.taskListScreen)
     }
 }
 
@@ -56,6 +56,7 @@ fun NavGraphBuilder.taskListComposable(
 }
 
 fun NavGraphBuilder.taskComposable(
+    sharedViewModel: SharedViewModel,
     navigateToTaskListScreen: NavigateToTaskListScreen,
 ) {
     composable(
@@ -65,7 +66,7 @@ fun NavGraphBuilder.taskComposable(
         ),
     ) { backStackEntry ->
         backStackEntry.arguments?.getLong("taskId")?.let { taskId ->
-            Text("Task $taskId")
+            TaskScreen(sharedViewModel, taskId)
         }
     }
 }

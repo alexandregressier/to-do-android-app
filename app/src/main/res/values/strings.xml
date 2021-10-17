@@ -3,12 +3,15 @@
 
     <!-- Title -->
     <string name="title_task_list">Tasks</string>
+    <string name="title_add_task">Add Task</string>
 
     <!-- Texts -->
     <string name="text_all_tasks_completed">All tasks completed!</string>
 
     <!-- Icons -->
     <string name="icon_happy_face">Happy face icon</string>
+    <string name="icon_back_arrow">Back arrow icon</string>
+    <string name="icon_check">Check icon</string>
     <!-- TODO: describe other icons -->
 
     <!-- Descriptions -->
