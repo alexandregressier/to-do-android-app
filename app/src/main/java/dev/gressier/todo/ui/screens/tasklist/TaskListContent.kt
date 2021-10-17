@@ -6,28 +6,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import dev.gressier.todo.data.models.Task
 import dev.gressier.todo.data.models.TaskId
+import dev.gressier.todo.util.RequestState
 
 @Composable
-fun TaskListContent(tasks: List<Task>, navigateToTask: (TaskId) -> Unit = {}) {
-    if (tasks.isNotEmpty())
-        LazyColumn {
-            items(tasks, { it.id }) { task ->
-                TaskListItem(task, navigateToTask)
-            }
-        }
-    else
-        EmptyTaskListContent()
+fun TaskListContent(tasks: RequestState<List<Task>>, navigateToTask: (TaskId) -> Unit = {}) {
+    when (tasks) {
+        is RequestState.Success ->
+           if (tasks.value.isNotEmpty())
+               LazyColumn {
+                   items(tasks.value, { it.id }) { task ->
+                       TaskListItem(task, navigateToTask)
+                   }
+               }
+           else
+               EmptyTaskListContent()
+    }
+
 }
 
 @Preview
 @Composable
 private fun TaskListContent_Preview() {
-    TaskListContent(List(5) { i ->
-        Task(
-            id = i.toLong(),
-            title = "Something to do",
-            description = "This is something that has to be done",
-            priority = Task.Priority.values().run { get(i % count()) }
-        )
-    })
+    TaskListContent(
+        RequestState.Success(List(5) { i ->
+            Task(
+                id = i.toLong(),
+                title = "Something to do",
+                description = "This is something that has to be done",
+                priority = Task.Priority.values().run { get(i % count()) },
+            )
+        }
+    ))
 }
