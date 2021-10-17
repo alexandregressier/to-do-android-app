@@ -1,6 +1,6 @@
 package dev.gressier.todo.navigation
 
-enum class TaskAction {
+enum class TaskListAction {
     ADD,
     UPDATE,
     DELETE,

@@ -15,7 +15,7 @@ import dev.gressier.todo.ui.viewmodels.SharedViewModel
 
 class NavigateTo(navController: NavHostController) {
 
-    val taskList: (TaskAction) -> Unit = { action ->
+    val taskList: (TaskListAction) -> Unit = { action ->
         navController.navigate("taskList/${action.name}") {
             popUpTo("taskList/{action}") { inclusive = true }
         }
@@ -53,7 +53,7 @@ fun NavGraphBuilder.taskListComposable(
 }
 
 fun NavGraphBuilder.taskComposable(
-    navigateToTaskList: (TaskAction) -> Unit,
+    navigateToTaskList: (TaskListAction) -> Unit,
 ) {
     composable(
         route = "task/{taskId}",
