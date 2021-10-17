@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import dev.gressier.todo.R
 import dev.gressier.todo.navigation.NavigateToTaskScreen
+import dev.gressier.todo.navigation.TaskListAction
 import dev.gressier.todo.ui.theme.fabBackgroundColor
 import dev.gressier.todo.ui.viewmodels.SearchTasksTopBarState
 import dev.gressier.todo.ui.viewmodels.SharedViewModel
@@ -21,10 +22,14 @@ import dev.gressier.todo.ui.viewmodels.SharedViewModel
 @Composable
 fun TaskListScreen(
     sharedViewModel: SharedViewModel,
+    action: TaskListAction,
     navigateToTaskScreen: NavigateToTaskScreen = {},
 ) {
     LaunchedEffect(Unit) {
         sharedViewModel.getAllTasks()
+    }
+    LaunchedEffect(action) {
+        sharedViewModel.handleTaskListAction(action)
     }
     val tasks by sharedViewModel.tasks.collectAsState()
     val searchTasksTopBarState: SearchTasksTopBarState by sharedViewModel.searchTasksTopBarState

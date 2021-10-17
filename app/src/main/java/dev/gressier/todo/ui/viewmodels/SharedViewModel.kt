@@ -9,8 +9,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.gressier.todo.data.models.Task
 import dev.gressier.todo.data.models.TaskId
 import dev.gressier.todo.data.repositories.TaskRepository
+import dev.gressier.todo.navigation.TaskListAction
 import dev.gressier.todo.util.Config
 import dev.gressier.todo.util.RequestState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -76,6 +78,25 @@ class SharedViewModel @Inject constructor(
         title.value = ""
         description.value = ""
         priority.value = Task.Priority.NONE
+    }
+
+    fun handleTaskListAction(action: TaskListAction) {
+        when (action) {
+            TaskListAction.ADD -> addTaskFromTaskForm()
+            TaskListAction.UPDATE -> TODO()
+            TaskListAction.DELETE -> TODO()
+            TaskListAction.DELETE_ALL -> TODO()
+            TaskListAction.UNDO -> TODO()
+            TaskListAction.NO_ACTION ->  {}
+        }
+    }
+
+    private fun addTaskFromTaskForm() {
+        viewModelScope.launch(Dispatchers.IO) {
+            taskRepository.addTask(
+                Task(title = title.value, description = description.value, priority = priority.value)
+            )
+        }
     }
 }
 
