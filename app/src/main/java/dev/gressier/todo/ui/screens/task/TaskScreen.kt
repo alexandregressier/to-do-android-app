@@ -1,7 +1,6 @@
 package dev.gressier.todo.ui.screens.task
 
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,7 +26,14 @@ fun TaskScreen(
 
     Scaffold(
         topBar = { TaskTopBar(forEdit = task is RequestState.Success, navigateToTaskListScreen) },
-        content = { Text("$task") },
+        content = {
+            if (task !is RequestState.Success)
+                TaskForm()
+            else
+                with ((task as RequestState.Success<Task>).value) { // TODO: remove this cast
+                    TaskForm(title, {}, priority, {}, description, {})
+                }
+        },
     )
 }
 

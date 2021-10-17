@@ -9,6 +9,10 @@
     <!-- Texts -->
     <string name="text_all_tasks_completed">All tasks completed!</string>
 
+    <!-- Field labels -->
+    <string name="field_label_task_title">Title</string>
+    <string name="field_label_task_description">Description</string>
+
     <!-- Icons -->
     <string name="icon_happy_face">Happy face icon</string>
     <string name="icon_back_arrow">Back arrow icon</string>
