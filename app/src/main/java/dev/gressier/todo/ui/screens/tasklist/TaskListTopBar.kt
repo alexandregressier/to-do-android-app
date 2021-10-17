@@ -27,7 +27,6 @@ import dev.gressier.todo.ui.viewmodels.SearchTasksTopBarState.CLOSED
 import dev.gressier.todo.ui.viewmodels.SearchTasksTopBarState.OPENED
 import dev.gressier.todo.ui.viewmodels.SharedViewModel
 
-
 @Composable
 fun TaskListTopBar(
     sharedViewModel: SharedViewModel,
