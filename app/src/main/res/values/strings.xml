@@ -37,4 +37,7 @@
     <!-- Fields -->
     <string name="placeholder_search_tasks">Search tasks...</string>
 
+    <!-- Toasts -->
+    <string name="toast_task_form_invalid">Please enter a title and a description</string>
+
 </resources>

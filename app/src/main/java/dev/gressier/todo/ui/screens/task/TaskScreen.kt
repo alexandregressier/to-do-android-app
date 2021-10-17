@@ -4,10 +4,14 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import dev.gressier.todo.R
 import dev.gressier.todo.data.models.Task
 import dev.gressier.todo.data.models.TaskId
 import dev.gressier.todo.navigation.NavigateToTaskListScreen
+import dev.gressier.todo.navigation.TaskListAction
 import dev.gressier.todo.ui.viewmodels.SharedViewModel
+import dev.gressier.todo.util.toast
 
 @Composable
 fun TaskScreen(
@@ -23,8 +27,19 @@ fun TaskScreen(
     val description: String by sharedViewModel.description
     val priority: Task.Priority by sharedViewModel.priority
 
+    val context = LocalContext.current
+
     Scaffold(
-        topBar = { TaskTopBar(forEdit = taskId != null, navigateToTaskListScreen) },
+        topBar = { TaskTopBar(forEdit = taskId != null) { action ->
+            when (action) {
+                TaskListAction.NO_ACTION -> navigateToTaskListScreen(action)
+                else ->
+                    if (sharedViewModel.isTaskFormValid())
+                        navigateToTaskListScreen(action)
+                    else
+                        context.toast(R.string.toast_task_form_invalid)
+            }
+        }},
         content = {
             TaskForm(
                 title, sharedViewModel::updateTaskTitle,

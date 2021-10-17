@@ -1,6 +1,7 @@
 package dev.gressier.todo.ui.viewmodels
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -65,6 +66,11 @@ class SharedViewModel @Inject constructor(
         if (title.length <= Config.MAX_TASK_TITLE_LENGTH)
             this.title.value = title
     }
+
+    fun isTaskFormValid(): Boolean =
+        listOf(title, description)
+            .map(MutableState<String>::value)
+            .all(String::isNotEmpty)
 
     fun resetTaskForm() {
         title.value = ""
