@@ -23,7 +23,7 @@ fun TaskScreen(
             sharedViewModel.getTask(it)
         }
     }
-    val task: RequestState<Task?> by sharedViewModel.task.collectAsState()
+    val task: RequestState<Task> by sharedViewModel.task.collectAsState()
 
     Scaffold(
         topBar = { TaskTopBar(forEdit = task is RequestState.Success, navigateToTaskListScreen) },

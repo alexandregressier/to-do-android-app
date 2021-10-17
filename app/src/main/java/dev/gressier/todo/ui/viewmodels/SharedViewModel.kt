@@ -25,8 +25,8 @@ class SharedViewModel @Inject constructor(
     val searchTasksTopBarState = mutableStateOf(SearchTasksTopBarState.CLOSED)
     val searchText = mutableStateOf("")
 
-    private val _task = MutableStateFlow<RequestState<Task?>>(RequestState.Idle)
-    val task: StateFlow<RequestState<Task?>> = _task
+    private val _task = MutableStateFlow<RequestState<Task>>(RequestState.Idle)
+    val task: StateFlow<RequestState<Task>> = _task
 
     fun getAllTasks() {
         _tasks.value = RequestState.Loading
