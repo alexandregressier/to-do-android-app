@@ -1,6 +1,5 @@
 package dev.gressier.todo.ui.screens.tasklist
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -13,9 +12,13 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import dev.gressier.todo.components.TaskPriorityIndicator
 import dev.gressier.todo.data.models.Task
 import dev.gressier.todo.data.models.TaskId
-import dev.gressier.todo.ui.theme.*
+import dev.gressier.todo.ui.theme.largePadding
+import dev.gressier.todo.ui.theme.taskListItemBackgroundColor
+import dev.gressier.todo.ui.theme.taskListItemElevation
+import dev.gressier.todo.ui.theme.taskListItemTextColor
 
 @Composable
 fun TaskListItem(task: Task, navigateToTask: (TaskId) -> Unit = {}) {
@@ -36,9 +39,7 @@ fun TaskListItem(task: Task, navigateToTask: (TaskId) -> Unit = {}) {
                         maxLines = 1,
                         style = MaterialTheme.typography.h5,
                     )
-                    Canvas(Modifier.size(taskPriorityIndicatorSize)) {
-                        drawCircle(priority.color)
-                    }
+                    TaskPriorityIndicator(priority)
                 }
                 Text(
                     description,
