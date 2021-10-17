@@ -30,6 +30,7 @@ class SharedViewModel @Inject constructor(
     val searchTasksTopBarState = mutableStateOf(SearchTasksTopBarState.CLOSED)
     val searchText = mutableStateOf("")
 
+    val taskId: MutableState<TaskId?> = mutableStateOf(null)
     val title = mutableStateOf("")
     val description = mutableStateOf("")
     val priority = mutableStateOf(Task.Priority.NONE)
@@ -53,6 +54,7 @@ class SharedViewModel @Inject constructor(
             viewModelScope.launch {
                 taskRepository.getTask(id).collect { task ->
                     task?.also {
+                        taskId.value = it.id
                         title.value = it.title
                         description.value = it.description
                         priority.value = it.priority
@@ -75,6 +77,7 @@ class SharedViewModel @Inject constructor(
             .all(String::isNotEmpty)
 
     fun resetTaskForm() {
+        taskId.value = null
         title.value = ""
         description.value = ""
         priority.value = Task.Priority.NONE
@@ -83,7 +86,7 @@ class SharedViewModel @Inject constructor(
     fun handleTaskListAction(action: TaskListAction) {
         when (action) {
             TaskListAction.ADD -> addTaskFromTaskForm()
-            TaskListAction.UPDATE -> TODO()
+            TaskListAction.UPDATE -> updateTaskFromTaskForm()
             TaskListAction.DELETE -> TODO()
             TaskListAction.DELETE_ALL -> TODO()
             TaskListAction.UNDO -> TODO()
@@ -96,6 +99,14 @@ class SharedViewModel @Inject constructor(
             taskRepository.addTask(
                 Task(title = title.value, description = description.value, priority = priority.value)
             )
+        }
+    }
+
+    private fun updateTaskFromTaskForm() {
+        taskId.value?.let { taskId ->
+            viewModelScope.launch(Dispatchers.IO) {
+                taskRepository.updateTask(Task(taskId, title.value, description.value, priority.value))
+            }
         }
     }
 }
