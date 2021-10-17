@@ -99,9 +99,9 @@ fun SortTasksAction(onClick: (Task.Priority) -> Unit) {
             tint = MaterialTheme.colors.topBarContentColor,
         )
         DropdownMenu(expanded, onDismissRequest = { expanded = false }) {
-            Task.Priority.values().forEach { taskPriority ->
-                DropdownMenuItem({ onClick(taskPriority); expanded = false }) {
-                    TaskPriorityItem(taskPriority)
+            Task.Priority.values().forEach { priority ->
+                DropdownMenuItem({ onClick(priority); expanded = false }) {
+                    TaskPriorityItem(priority)
                 }
             }
         }
