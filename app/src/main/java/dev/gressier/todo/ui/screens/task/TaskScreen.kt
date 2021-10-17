@@ -27,7 +27,7 @@ fun TaskScreen(
         topBar = { TaskTopBar(forEdit = taskId != null, navigateToTaskListScreen) },
         content = {
             TaskForm(
-                title, { sharedViewModel.title.value = it },
+                title, sharedViewModel::updateTaskTitle,
                 priority, { sharedViewModel.priority.value = it },
                 description, { sharedViewModel.description.value = it }
             )

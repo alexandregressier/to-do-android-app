@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.gressier.todo.data.models.Task
 import dev.gressier.todo.data.models.TaskId
 import dev.gressier.todo.data.repositories.TaskRepository
+import dev.gressier.todo.util.Config
 import dev.gressier.todo.util.RequestState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -58,6 +59,11 @@ class SharedViewModel @Inject constructor(
         } catch (e: Exception) {
             Log.e("SharedViewModel", "Could not load Task with id `$id`")
         }
+    }
+
+    fun updateTaskTitle(title: String) {
+        if (title.length <= Config.MAX_TASK_TITLE_LENGTH)
+            this.title.value = title
     }
 
     fun resetTaskForm() {
