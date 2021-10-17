@@ -87,7 +87,7 @@ class SharedViewModel @Inject constructor(
         when (action) {
             TaskListAction.ADD -> addTaskFromTaskForm()
             TaskListAction.UPDATE -> updateTaskFromTaskForm()
-            TaskListAction.DELETE -> TODO()
+            TaskListAction.DELETE -> deleteTaskFromTaskForm()
             TaskListAction.DELETE_ALL -> TODO()
             TaskListAction.UNDO -> TODO()
             TaskListAction.NO_ACTION ->  {}
@@ -106,6 +106,14 @@ class SharedViewModel @Inject constructor(
         taskId.value?.let { taskId ->
             viewModelScope.launch(Dispatchers.IO) {
                 taskRepository.updateTask(Task(taskId, title.value, description.value, priority.value))
+            }
+        }
+    }
+
+    private fun deleteTaskFromTaskForm() {
+        taskId.value?.let { taskId ->
+            viewModelScope.launch(Dispatchers.IO) {
+                taskRepository.deleteTask(Task(taskId, title.value, description.value, priority.value))
             }
         }
     }
