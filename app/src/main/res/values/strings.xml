@@ -15,6 +15,7 @@
     <string name="icon_close">Close icon</string>
     <string name="icon_delete">Delete icon</string>
     <string name="icon_check">Check icon</string>
+    <string name="icon_arrow_dropdown">Arrow dropdown icon</string>
     <!-- TODO: describe other icons -->
 
     <!-- Descriptions -->
