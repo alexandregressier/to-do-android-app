@@ -21,7 +21,6 @@ fun TaskListContent(tasks: RequestState<List<Task>>, navigateToTask: (TaskId) ->
            else
                EmptyTaskListContent()
     }
-
 }
 
 @Preview
