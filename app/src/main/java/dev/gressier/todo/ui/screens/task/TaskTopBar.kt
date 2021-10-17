@@ -17,9 +17,13 @@ import dev.gressier.todo.ui.theme.topBarContentColor
 
 @Composable
 fun TaskTopBar(
+    forEdit: Boolean = false,
     navigateToTaskListScreen: NavigateToTaskListScreen = {},
 ) {
-    AddTaskTopBar(navigateToTaskListScreen)
+    if (!forEdit)
+        AddTaskTopBar(navigateToTaskListScreen)
+    else
+        EditTaskTopBar(navigateToTaskListScreen)
 }
 
 @Composable

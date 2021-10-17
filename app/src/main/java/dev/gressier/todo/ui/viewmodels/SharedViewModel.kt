@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.gressier.todo.data.models.Task
+import dev.gressier.todo.data.models.TaskId
 import dev.gressier.todo.data.repositories.TaskRepository
 import dev.gressier.todo.util.RequestState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +25,9 @@ class SharedViewModel @Inject constructor(
     val searchTasksTopBarState = mutableStateOf(SearchTasksTopBarState.CLOSED)
     val searchText = mutableStateOf("")
 
+    private val _task = MutableStateFlow<RequestState<Task?>>(RequestState.Idle)
+    val task: StateFlow<RequestState<Task?>> = _task
+
     fun getAllTasks() {
         _tasks.value = RequestState.Loading
         try {
@@ -35,7 +39,19 @@ class SharedViewModel @Inject constructor(
         } catch (e: Exception) {
             _tasks.value = RequestState.Error(e)
         }
+    }
 
+    fun getTask(id: TaskId) {
+        _task.value = RequestState.Loading
+        try {
+            viewModelScope.launch {
+                taskRepository.getTask(id).collect { task ->
+                    _task.value = task?.let { RequestState.Success(it) } ?: RequestState.Empty
+                }
+            }
+        } catch (e: Exception) {
+            _task.value = RequestState.Error(e)
+        }
     }
 }
 

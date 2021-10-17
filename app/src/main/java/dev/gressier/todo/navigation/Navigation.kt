@@ -67,7 +67,7 @@ fun NavGraphBuilder.taskComposable(
         ),
     ) { backStackEntry ->
         backStackEntry.arguments?.getLong("taskId")?.let { taskId ->
-            TaskScreen(sharedViewModel, taskId)
+            TaskScreen(sharedViewModel, taskId, navigateToTaskListScreen)
         }
     }
 }
