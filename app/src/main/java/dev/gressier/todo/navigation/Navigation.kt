@@ -13,14 +13,17 @@ import dev.gressier.todo.data.models.TaskId
 import dev.gressier.todo.ui.screens.tasklist.TaskListScreen
 import dev.gressier.todo.ui.viewmodels.SharedViewModel
 
+typealias NavigateToTaskListScreen = (TaskListAction) -> Unit
+typealias NavigateToTaskScreen = (TaskId?) -> Unit
+
 class NavigateTo(navController: NavHostController) {
 
-    val taskList: (TaskListAction) -> Unit = { action ->
+    val taskListScreen: NavigateToTaskListScreen = { action ->
         navController.navigate("taskList/${action.name}") {
             popUpTo("taskList/{action}") { inclusive = true }
         }
     }
-    val task: (TaskId?) -> Unit = { taskId ->
+    val taskScreen: NavigateToTaskScreen = { taskId ->
         navController.navigate("task/${taskId ?: -1}")
     }
 }
@@ -33,14 +36,14 @@ fun SetupNavigation(
     val navigateTo: NavigateTo = remember(navController) { NavigateTo(navController) }
 
     NavHost(navController, startDestination = "taskList/{action}") {
-        taskListComposable(sharedViewModel, navigateTo.task)
-        taskComposable(navigateTo.taskList)
+        taskListComposable(sharedViewModel, navigateTo.taskScreen)
+        taskComposable(navigateTo.taskListScreen)
     }
 }
 
 fun NavGraphBuilder.taskListComposable(
     sharedViewModel: SharedViewModel,
-    navigateToTask: (TaskId?) -> Unit,
+    navigateToTask: NavigateToTaskScreen,
 ) {
     composable(
         route = "taskList/{action}",
@@ -53,7 +56,7 @@ fun NavGraphBuilder.taskListComposable(
 }
 
 fun NavGraphBuilder.taskComposable(
-    navigateToTaskList: (TaskListAction) -> Unit,
+    navigateToTaskListScreen: NavigateToTaskListScreen,
 ) {
     composable(
         route = "task/{taskId}",

@@ -13,7 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import dev.gressier.todo.R
-import dev.gressier.todo.data.models.TaskId
+import dev.gressier.todo.navigation.NavigateToTaskScreen
 import dev.gressier.todo.ui.theme.fabBackgroundColor
 import dev.gressier.todo.ui.viewmodels.SearchTasksTopBarState
 import dev.gressier.todo.ui.viewmodels.SharedViewModel
@@ -21,7 +21,7 @@ import dev.gressier.todo.ui.viewmodels.SharedViewModel
 @Composable
 fun TaskListScreen(
     sharedViewModel: SharedViewModel,
-    navigateToTask: (TaskId?) -> Unit = {},
+    navigateToTaskScreen: NavigateToTaskScreen = {},
 ) {
     LaunchedEffect(true) {
         sharedViewModel.getAllTasks()
@@ -32,8 +32,8 @@ fun TaskListScreen(
 
     Scaffold(
         topBar = { TaskListTopBar(sharedViewModel, searchTasksTopBarState, searchText) },
-        content = { TaskListContent(tasks, navigateToTask) },
-        floatingActionButton = { AddTaskFab { navigateToTask(null) } },
+        content = { TaskListContent(tasks, navigateToTaskScreen) },
+        floatingActionButton = { AddTaskFab { navigateToTaskScreen(null) } },
     )
 }
 
