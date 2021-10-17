@@ -23,4 +23,12 @@ data class Task(
         MEDIUM(MediumPriorityColor),
         HIGH(HighPriorityColor),
     }
+
+    companion object {
+        val example = Task(
+            title = "Something to do",
+            description = "This is something that has to be done",
+            priority = Task.Priority.LOW,
+        )
+    }
 }

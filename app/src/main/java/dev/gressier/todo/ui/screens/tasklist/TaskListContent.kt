@@ -29,10 +29,8 @@ fun TaskListContent(tasks: RequestState<List<Task>>, navigateToTask: (TaskId) ->
 private fun TaskListContent_Preview() {
     TaskListContent(
         RequestState.Success(List(5) { i ->
-            Task(
+            Task.example.copy(
                 id = i.toLong(),
-                title = "Something to do",
-                description = "This is something that has to be done",
                 priority = Task.Priority.values().run { get(i % count()) },
             )
         }
