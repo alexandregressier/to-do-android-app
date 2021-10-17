@@ -1,5 +1,6 @@
 package dev.gressier.todo.ui.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,8 +26,9 @@ class SharedViewModel @Inject constructor(
     val searchTasksTopBarState = mutableStateOf(SearchTasksTopBarState.CLOSED)
     val searchText = mutableStateOf("")
 
-    private val _task = MutableStateFlow<RequestState<Task>>(RequestState.Idle)
-    val task: StateFlow<RequestState<Task>> = _task
+    val title = mutableStateOf("")
+    val description = mutableStateOf("")
+    val priority = mutableStateOf(Task.Priority.NONE)
 
     fun getAllTasks() {
         _tasks.value = RequestState.Loading
@@ -37,21 +39,31 @@ class SharedViewModel @Inject constructor(
                 }
             }
         } catch (e: Exception) {
+            Log.e("SharedViewModel", "Could not load all the tasks")
             _tasks.value = RequestState.Error(e)
         }
     }
 
-    fun getTask(id: TaskId) {
-        _task.value = RequestState.Loading
+    fun loadTaskInTaskForm(id: TaskId) {
         try {
             viewModelScope.launch {
                 taskRepository.getTask(id).collect { task ->
-                    _task.value = task?.let { RequestState.Success(it) } ?: RequestState.Empty
+                    task?.also {
+                        title.value = it.title
+                        description.value = it.description
+                        priority.value = it.priority
+                    }
                 }
             }
         } catch (e: Exception) {
-            _task.value = RequestState.Error(e)
+            Log.e("SharedViewModel", "Could not load Task with id `$id`")
         }
+    }
+
+    fun resetTaskForm() {
+        title.value = ""
+        description.value = ""
+        priority.value = Task.Priority.NONE
     }
 }
 

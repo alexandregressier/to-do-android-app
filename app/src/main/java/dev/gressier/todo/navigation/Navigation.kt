@@ -24,7 +24,7 @@ class NavigateTo(navController: NavHostController) {
         }
     }
     val taskScreen: NavigateToTaskScreen = { taskId ->
-        navController.navigate("task/${taskId ?: -1}")
+        navController.navigate("task/$taskId")
     }
 }
 
@@ -63,11 +63,10 @@ fun NavGraphBuilder.taskComposable(
     composable(
         route = "task/{taskId}",
         arguments = listOf(
-            navArgument("taskId") { type = NavType.LongType },
+            navArgument("taskId") { type = NavType.StringType; nullable = true },
         ),
     ) { backStackEntry ->
-        backStackEntry.arguments?.getLong("taskId")?.let { taskId ->
-            TaskScreen(sharedViewModel, taskId, navigateToTaskListScreen)
-        }
+        val taskId = backStackEntry.arguments?.getString("taskId")?.toLongOrNull()
+        TaskScreen(sharedViewModel, taskId, navigateToTaskListScreen)
     }
 }

@@ -23,7 +23,7 @@ fun TaskListScreen(
     sharedViewModel: SharedViewModel,
     navigateToTaskScreen: NavigateToTaskScreen = {},
 ) {
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
         sharedViewModel.getAllTasks()
     }
     val tasks by sharedViewModel.tasks.collectAsState()
