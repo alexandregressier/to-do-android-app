@@ -1,5 +1,5 @@
 package dev.gressier.todo.util
 
-object Constants {
+object Config {
     const val DATABASE_NAME = "ToDoDatabase"
 }
