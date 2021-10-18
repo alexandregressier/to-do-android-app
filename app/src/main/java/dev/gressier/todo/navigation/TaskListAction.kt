@@ -5,6 +5,5 @@ enum class TaskListAction {
     UPDATE,
     DELETE,
     DELETE_ALL,
-    UNDO,
     NO_ACTION,
 }

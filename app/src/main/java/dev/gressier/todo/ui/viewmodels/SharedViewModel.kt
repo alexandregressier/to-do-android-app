@@ -35,6 +35,8 @@ class SharedViewModel @Inject constructor(
     val description = mutableStateOf("")
     val priority = mutableStateOf(Task.Priority.NONE)
 
+    private val lastDeletedTask: MutableState<Task?> = mutableStateOf(null)
+
     fun getAllTasks() {
         _tasks.value = RequestState.Loading
         try {
@@ -89,8 +91,15 @@ class SharedViewModel @Inject constructor(
             TaskListAction.UPDATE -> updateTaskFromTaskForm()
             TaskListAction.DELETE -> deleteTaskFromTaskForm()
             TaskListAction.DELETE_ALL -> TODO()
-            TaskListAction.UNDO -> TODO()
             TaskListAction.NO_ACTION ->  {}
+        }
+    }
+
+    fun restoreLastDeletedTask() {
+        lastDeletedTask.value?.let {
+            viewModelScope.launch(Dispatchers.IO) {
+                taskRepository.addTask(it)
+            }
         }
     }
 
@@ -113,7 +122,10 @@ class SharedViewModel @Inject constructor(
     private fun deleteTaskFromTaskForm() {
         taskId.value?.let { taskId ->
             viewModelScope.launch(Dispatchers.IO) {
-                taskRepository.deleteTask(Task(taskId, title.value, description.value, priority.value))
+                Task(taskId, title.value, description.value, priority.value).let { task ->
+                    taskRepository.deleteTask(task)
+                    lastDeletedTask.value = task
+                }
             }
         }
     }

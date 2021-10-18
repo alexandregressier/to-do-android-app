@@ -30,12 +30,18 @@ fun TaskListScreen(
         sharedViewModel.handleTaskListAction(action)
         if (action != TaskListAction.NO_ACTION) {
             scope.launch {
-                val snackbarResult = scaffoldState.snackbarHostState.showSnackbar(
-                    "${action.name}: ${sharedViewModel.title.value}", "OK",
-                )
+                scaffoldState.snackbarHostState.showSnackbar(
+                    "${action.name}: ${sharedViewModel.title.value}",
+                    "DISMISS".takeUnless { action == TaskListAction.DELETE } ?: "UNDO",
+                ).also {
+                    if (it == SnackbarResult.ActionPerformed && action == TaskListAction.DELETE) {
+                        sharedViewModel.restoreLastDeletedTask()
+                    }
+                }
             }
         }
     }
+
     val tasks by sharedViewModel.tasks.collectAsState()
     val searchTasksTopBarState: SearchTasksTopBarState by sharedViewModel.searchTasksTopBarState
     val searchText: String by sharedViewModel.searchText
