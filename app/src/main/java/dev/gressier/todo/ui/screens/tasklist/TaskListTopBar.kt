@@ -34,7 +34,7 @@ fun TaskListTopBar(
         DefaultTaskListTopBar(
             onSearchTasksClick = sharedViewModel::openTaskSearch,
             onSortTasksClick = {},
-            onShowMoreClick = {},
+            onDeleteAllClick = sharedViewModel::deleteAllTasks,
         )
     else
         SearchTasksAppBar(
@@ -52,7 +52,7 @@ fun TaskListTopBar(
 fun DefaultTaskListTopBar(
     onSearchTasksClick: () -> Unit = {},
     onSortTasksClick: (Task.Priority) -> Unit = {},
-    onShowMoreClick: () -> Unit = {},
+    onDeleteAllClick: () -> Unit = {},
 ) {
     TopAppBar(
         title = {
@@ -61,7 +61,7 @@ fun DefaultTaskListTopBar(
         actions = {
             SearchTasksAction(onSearchTasksClick)
             SortTasksAction(onSortTasksClick)
-            ShowMoreAction(onShowMoreClick)
+            ShowMoreAction(onDeleteAllClick)
         },
         backgroundColor = MaterialTheme.colors.topBarBackgroundColor,
     )
@@ -99,7 +99,7 @@ fun SortTasksAction(onClick: (Task.Priority) -> Unit) {
 }
 
 @Composable
-fun ShowMoreAction(onClick: () -> Unit) {
+fun ShowMoreAction(onDeleteAllClick: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
 
     IconButton(onClick = { expanded = true }) {
@@ -110,7 +110,7 @@ fun ShowMoreAction(onClick: () -> Unit) {
         )
         DropdownMenu(expanded, onDismissRequest = { expanded = false }) {
             // Delete all tasks
-            DropdownMenuItem({ onClick(); expanded = false }) {
+            DropdownMenuItem({ onDeleteAllClick(); expanded = false }) {
                 Text(
                     stringResource(R.string.description_delete_all_tasks),
                     Modifier.padding(start = largePadding),
