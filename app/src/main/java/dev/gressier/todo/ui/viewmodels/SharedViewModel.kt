@@ -30,7 +30,7 @@ class SharedViewModel @Inject constructor(
     val searchTasksTopBarState = mutableStateOf(SearchTasksTopBarState.CLOSED)
     val searchText = mutableStateOf("")
 
-    val taskId: MutableState<TaskId?> = mutableStateOf(null)
+    private val taskId: MutableState<TaskId?> = mutableStateOf(null)
     val title = mutableStateOf("")
     val description = mutableStateOf("")
     val priority = mutableStateOf(Task.Priority.NONE)
