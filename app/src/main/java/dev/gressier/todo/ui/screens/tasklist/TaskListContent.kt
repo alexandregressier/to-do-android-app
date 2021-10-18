@@ -9,13 +9,13 @@ import dev.gressier.todo.data.models.TaskId
 import dev.gressier.todo.util.RequestState
 
 @Composable
-fun TaskListContent(tasks: RequestState<List<Task>>, navigateToTask: (TaskId) -> Unit = {}) {
+fun TaskListContent(tasks: RequestState<List<Task>>, navigateToTaskScreen: (TaskId) -> Unit = {}) {
     when (tasks) {
         is RequestState.Success ->
            if (tasks.value.isNotEmpty())
                LazyColumn {
                    items(tasks.value, { it.id }) { task ->
-                       TaskListItem(task, navigateToTask)
+                       TaskListItem(task, navigateToTaskScreen)
                    }
                }
            else

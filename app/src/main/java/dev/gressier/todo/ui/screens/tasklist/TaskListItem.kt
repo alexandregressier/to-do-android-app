@@ -21,10 +21,10 @@ import dev.gressier.todo.ui.theme.taskListItemElevation
 import dev.gressier.todo.ui.theme.taskListItemTextColor
 
 @Composable
-fun TaskListItem(task: Task, navigateToTask: (TaskId) -> Unit = {}) {
+fun TaskListItem(task: Task, navigateToTaskScreen: (TaskId) -> Unit = {}) {
     with (task) {
         Surface(
-            Modifier.fillMaxWidth().clickable { navigateToTask(id) },
+            Modifier.fillMaxWidth().clickable { navigateToTaskScreen(id) },
             RectangleShape,
             MaterialTheme.colors.taskListItemBackgroundColor,
             elevation = taskListItemElevation,

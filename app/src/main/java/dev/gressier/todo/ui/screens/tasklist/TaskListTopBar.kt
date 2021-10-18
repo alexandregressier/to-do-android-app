@@ -22,40 +22,30 @@ import dev.gressier.todo.R
 import dev.gressier.todo.components.TaskPriorityItem
 import dev.gressier.todo.data.models.Task
 import dev.gressier.todo.ui.theme.*
-import dev.gressier.todo.ui.viewmodels.SearchTasksTopBarState
-import dev.gressier.todo.ui.viewmodels.SearchTasksTopBarState.CLOSED
-import dev.gressier.todo.ui.viewmodels.SearchTasksTopBarState.OPENED
 import dev.gressier.todo.ui.viewmodels.SharedViewModel
 
 @Composable
 fun TaskListTopBar(
     sharedViewModel: SharedViewModel,
-    searchTasksTopBarState: SearchTasksTopBarState,
+    isSearchBarOpened: Boolean,
     searchText: String,
 ) {
-    when (searchTasksTopBarState) {
-        CLOSED -> {
-            DefaultTaskListTopBar(
-                onSearchTasksClick = {
-                    sharedViewModel.searchTasksTopBarState.value = OPENED
-                },
-                onSortTasksClick = {},
-                onShowMoreClick = {},
-            )
-        } else -> {
-            SearchTasksAppBar(
-                text = searchText,
-                onTextChange = {
-                    sharedViewModel.searchText.value = it
-                },
-                onSearchClick = {},
-                onCloseClick = {
-                    sharedViewModel.searchTasksTopBarState.value = CLOSED
-                    sharedViewModel.searchText.value = ""
-                },
-            )
-        }
-    }
+    if (!isSearchBarOpened)
+        DefaultTaskListTopBar(
+            onSearchTasksClick = sharedViewModel::openTaskSearch,
+            onSortTasksClick = {},
+            onShowMoreClick = {},
+        )
+    else
+        SearchTasksAppBar(
+            text = searchText,
+            onTextChange = {
+                sharedViewModel.searchText.value = it
+                sharedViewModel.searchTasks()
+            },
+            onSearchClick = {},
+            onCloseClick = sharedViewModel::closeTaskSearch,
+        )
 }
 
 @Composable

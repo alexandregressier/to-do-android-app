@@ -10,7 +10,6 @@ import dev.gressier.todo.R
 import dev.gressier.todo.navigation.NavigateToTaskScreen
 import dev.gressier.todo.navigation.TaskListAction
 import dev.gressier.todo.ui.theme.fabBackgroundColor
-import dev.gressier.todo.ui.viewmodels.SearchTasksTopBarState
 import dev.gressier.todo.ui.viewmodels.SharedViewModel
 import kotlinx.coroutines.launch
 
@@ -43,12 +42,12 @@ fun TaskListScreen(
     }
 
     val tasks by sharedViewModel.tasks.collectAsState()
-    val searchTasksTopBarState: SearchTasksTopBarState by sharedViewModel.searchTasksTopBarState
+    val isSearchBarOpened: Boolean by sharedViewModel.isSearchBarOpened
     val searchText: String by sharedViewModel.searchText
 
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = { TaskListTopBar(sharedViewModel, searchTasksTopBarState, searchText) },
+        topBar = { TaskListTopBar(sharedViewModel, isSearchBarOpened, searchText) },
         content = { TaskListContent(tasks, navigateToTaskScreen) },
         floatingActionButton = { AddTaskFab { navigateToTaskScreen(null) } },
     )

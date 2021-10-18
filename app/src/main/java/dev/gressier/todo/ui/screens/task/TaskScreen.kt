@@ -22,6 +22,8 @@ fun TaskScreen(
     LaunchedEffect(Unit) {
         taskId?.let { sharedViewModel.loadTaskInTaskForm(it) }
             ?: sharedViewModel.resetTaskForm()
+
+        sharedViewModel.closeTaskSearch() // TODO: move this closeTaskSearch() call elsewhere
     }
     val title: String by sharedViewModel.title
     val description: String by sharedViewModel.description

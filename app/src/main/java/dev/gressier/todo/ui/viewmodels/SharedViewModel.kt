@@ -27,7 +27,7 @@ class SharedViewModel @Inject constructor(
     private val _tasks = MutableStateFlow<RequestState<List<Task>>>(RequestState.Idle)
     val tasks: StateFlow<RequestState<List<Task>>> = _tasks
 
-    val searchTasksTopBarState = mutableStateOf(SearchTasksTopBarState.CLOSED)
+    val isSearchBarOpened = mutableStateOf(false)
     val searchText = mutableStateOf("")
 
     private val taskId: MutableState<TaskId?> = mutableStateOf(null)
@@ -49,6 +49,31 @@ class SharedViewModel @Inject constructor(
             Log.e("SharedViewModel", "Could not load all the tasks")
             _tasks.value = RequestState.Error(e)
         }
+    }
+
+    fun searchTasks() {
+        searchText.value.takeIf(String::isNotEmpty)?.let { text ->
+            _tasks.value = RequestState.Loading
+            try {
+                viewModelScope.launch {
+                    taskRepository.searchTasks(text).collect { tasks ->
+                        _tasks.value = RequestState.Success(tasks)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("SharedViewModel", "Could not search tasks")
+                _tasks.value = RequestState.Error(e)
+            }
+        } ?: getAllTasks()
+    }
+
+    fun openTaskSearch() {
+        isSearchBarOpened.value = true
+    }
+
+    fun closeTaskSearch() {
+        isSearchBarOpened.value = false
+        searchText.value = ""
     }
 
     fun loadTaskInTaskForm(id: TaskId) {
@@ -130,5 +155,3 @@ class SharedViewModel @Inject constructor(
         }
     }
 }
-
-enum class SearchTasksTopBarState { OPENED, CLOSED, TRIGGERED }

@@ -35,7 +35,7 @@ interface TaskDao {
     """)
     fun getTasksByHighestPriority(): Flow<List<Task>>
 
-    @Query("SELECT * FROM task WHERE title LIKE :text OR description LIKE :text")
+    @Query("SELECT * FROM task WHERE title LIKE '%' || :text || '%' OR description LIKE '%' || :text || '%'")
     fun searchTasks(text: String): Flow<List<Task>>
 
     @Insert(onConflict = IGNORE)
