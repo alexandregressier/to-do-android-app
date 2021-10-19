@@ -5,8 +5,8 @@ pluginManagement {
         mavenCentral()
     }
     plugins {
-        id("com.android.application") version "7.1.0-alpha13"
-        id("com.android.library") version "7.1.0-alpha13"
+        id("com.android.application") version "7.2.0-alpha02"
+        id("com.android.library") version "7.2.0-alpha02"
         kotlin("android") version "1.5.30"
         kotlin("kapt") version "1.5.30"
     }
