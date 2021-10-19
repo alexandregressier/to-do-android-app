@@ -19,6 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import dev.gressier.todo.R
+import dev.gressier.todo.components.Alert
 import dev.gressier.todo.components.TaskPriorityItem
 import dev.gressier.todo.data.models.Task
 import dev.gressier.todo.ui.theme.*
@@ -101,16 +102,24 @@ fun SortTasksAction(onClick: (Task.Priority) -> Unit) {
 @Composable
 fun ShowMoreAction(onDeleteAllClick: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
+    var presentDeleteAllTasksDialog by remember { mutableStateOf(false)  }
 
+    Alert(
+        presentDeleteAllTasksDialog,
+        stringResource(R.string.alert_title_delete_all_tasks),
+        stringResource(R.string.alert_message_delete_all_tasks),
+        { onDeleteAllClick(); presentDeleteAllTasksDialog = false },
+        { presentDeleteAllTasksDialog = false },
+    )
     IconButton(onClick = { expanded = true }) {
         Icon(
             painterResource(R.drawable.ic_more_vert),
             stringResource(R.string.description_show_more),
             tint = MaterialTheme.colors.topBarContentColor,
         )
-        DropdownMenu(expanded, onDismissRequest = { expanded = false }) {
+        DropdownMenu(expanded, onDismissRequest = { expanded = false; presentDeleteAllTasksDialog = true }) {
             // Delete all tasks
-            DropdownMenuItem({ onDeleteAllClick(); expanded = false }) {
+            DropdownMenuItem({ expanded = false; presentDeleteAllTasksDialog = true }) {
                 Text(
                     stringResource(R.string.description_delete_all_tasks),
                     Modifier.padding(start = largePadding),

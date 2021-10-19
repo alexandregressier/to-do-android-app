@@ -43,5 +43,7 @@
     <!-- Alerts -->
     <string name="alert_yes_button">Yes</string>
     <string name="alert_no_button">No</string>
+    <string name="alert_title_delete_all_tasks">Delete all tasks?</string>
+    <string name="alert_message_delete_all_tasks">Do you really want to delete all tasks? This cannot be undone.</string>
 
 </resources>
