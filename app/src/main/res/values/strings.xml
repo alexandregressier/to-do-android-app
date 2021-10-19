@@ -40,4 +40,8 @@
     <!-- Toasts -->
     <string name="toast_task_form_invalid">Please enter a title and a description</string>
 
+    <!-- Alerts -->
+    <string name="alert_yes_button">Yes</string>
+    <string name="alert_no_button">No</string>
+
 </resources>
