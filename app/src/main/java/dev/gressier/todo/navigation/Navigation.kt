@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.gressier.todo.data.models.TaskId
+import dev.gressier.todo.ui.screens.splash.SplashScreen
 import dev.gressier.todo.ui.screens.task.TaskScreen
 import dev.gressier.todo.ui.screens.tasklist.TaskListScreen
 import dev.gressier.todo.ui.viewmodels.SharedViewModel
@@ -18,6 +19,11 @@ typealias NavigateToTaskScreen = (TaskId?) -> Unit
 
 class NavigateTo(navController: NavHostController) {
 
+    val splashScreen: () -> Unit = {
+        navController.navigate("taskList/${TaskListAction.NO_ACTION.name}") {
+            popUpTo("splash") { inclusive = true }
+        }
+    }
     val taskListScreen: NavigateToTaskListScreen = { action ->
         navController.navigate("taskList/${action.name}") {
             popUpTo("taskList/{action}") { inclusive = true }
@@ -35,9 +41,18 @@ fun SetupNavigation(
 ) {
     val navigateTo: NavigateTo = remember(navController) { NavigateTo(navController) }
 
-    NavHost(navController, startDestination = "taskList/{action}") {
+    NavHost(navController, startDestination = "splash") {
+        splashComposable(navigateTo.splashScreen)
         taskListComposable(sharedViewModel, navigateTo.taskScreen)
         taskComposable(sharedViewModel, navigateTo.taskListScreen)
+    }
+}
+
+fun NavGraphBuilder.splashComposable(
+    navigateToTaskListScreen: () -> Unit,
+) {
+    composable(route = "splash") {
+        SplashScreen(navigateToTaskListScreen)
     }
 }
 

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -17,9 +18,17 @@ import dev.gressier.todo.R
 import dev.gressier.todo.ui.theme.ToDoTheme
 import dev.gressier.todo.ui.theme.splashScreenBackgroundColor
 import dev.gressier.todo.ui.theme.splashScreenLogoHeight
+import dev.gressier.todo.util.Config
+import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(
+    navigateToTaskListScreen: () -> Unit = {},
+) {
+    LaunchedEffect(Unit) {
+        delay(Config.SPLASH_SCREEN_DURATION)
+        navigateToTaskListScreen()
+    }
     Box(Modifier.fillMaxSize().background(MaterialTheme.colors.splashScreenBackgroundColor), Alignment.Center) {
        Image(
            painterResource(R.drawable.ic_logo_light.takeUnless { isSystemInDarkTheme() } ?: R.drawable.ic_logo_dark),
