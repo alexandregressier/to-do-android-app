@@ -1,9 +1,9 @@
 package dev.gressier.todo.components
 
 import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,11 +34,11 @@ fun Alert(
                     fontWeight = FontWeight.Normal,
                 )
             },
-            confirmButton = { Button({ onYesClick(); onNoClick() }) {
-                Text(stringResource(R.string.alert_yes_button)) }
+            confirmButton = { TextButton({ onYesClick(); onNoClick() }) {
+                Text(stringResource(R.string.alert_yes_button).uppercase()) }
             },
-            dismissButton = { Button({ onNoClick() }) {
-                Text(stringResource(R.string.alert_no_button)) }
+            dismissButton = { TextButton({ onNoClick() }) {
+                Text(stringResource(R.string.alert_no_button).uppercase()) }
             },
         )
 }
