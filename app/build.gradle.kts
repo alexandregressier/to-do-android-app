@@ -66,6 +66,7 @@ dependencies {
 
     // Navigation
     implementation(AndroidX.navigation.compose)
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.20.0")
 
     // Room
     implementation(AndroidX.room.runtime)

@@ -1,13 +1,14 @@
 package dev.gressier.todo.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 import dev.gressier.todo.data.models.TaskId
 import dev.gressier.todo.ui.screens.splash.SplashScreen
 import dev.gressier.todo.ui.screens.task.TaskScreen
@@ -34,6 +35,7 @@ class NavigateTo(navController: NavHostController) {
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
 fun SetupNavigation(
     navController: NavHostController,
@@ -41,13 +43,14 @@ fun SetupNavigation(
 ) {
     val navigateTo: NavigateTo = remember(navController) { NavigateTo(navController) }
 
-    NavHost(navController, startDestination = "splash") {
+    AnimatedNavHost(navController, startDestination = "splash") {
         splashComposable(navigateTo.splashScreen)
         taskListComposable(sharedViewModel, navigateTo.taskScreen)
         taskComposable(sharedViewModel, navigateTo.taskListScreen)
     }
 }
 
+@ExperimentalAnimationApi
 fun NavGraphBuilder.splashComposable(
     navigateToTaskListScreen: () -> Unit,
 ) {
@@ -56,6 +59,7 @@ fun NavGraphBuilder.splashComposable(
     }
 }
 
+@ExperimentalAnimationApi
 fun NavGraphBuilder.taskListComposable(
     sharedViewModel: SharedViewModel,
     navigateToTask: NavigateToTaskScreen,
@@ -72,6 +76,7 @@ fun NavGraphBuilder.taskListComposable(
     }
 }
 
+@ExperimentalAnimationApi
 fun NavGraphBuilder.taskComposable(
     sharedViewModel: SharedViewModel,
     navigateToTaskListScreen: NavigateToTaskListScreen,
