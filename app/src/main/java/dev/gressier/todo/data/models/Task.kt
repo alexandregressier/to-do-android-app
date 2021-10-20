@@ -18,17 +18,19 @@ data class Task(
     val priority: Priority,
 ) {
     enum class Priority(val color: Color) {
-        NONE(NoPriorityColor),
-        LOW(LowPriorityColor),
-        MEDIUM(MediumPriorityColor),
         HIGH(HighPriorityColor),
+        MEDIUM(MediumPriorityColor),
+        LOW(LowPriorityColor),
+        NONE(NoPriorityColor),
     }
+
+    enum class SortingOrder { DESCENDING, ASCENDING, NONE }
 
     companion object {
         val example = Task(
             title = "Something to do",
             description = "This is something that has to be done",
-            priority = Task.Priority.LOW,
+            priority = Priority.LOW,
         )
     }
 }

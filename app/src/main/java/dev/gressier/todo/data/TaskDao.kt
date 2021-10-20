@@ -15,12 +15,16 @@ interface TaskDao {
     @Query("SELECT * FROM task ORDER BY id ASC")
     fun getAllTasks(): Flow<List<Task>>
 
+    @Query("""SELECT * FROM task WHERE priority = :priority OR :priority = 'NONE'""")
+    fun getTasksByPriority(priority: Task.Priority): Flow<List<Task>>
+
     @Query("""
         SELECT * FROM task
         ORDER BY CASE
             WHEN priority = 'LOW' THEN 1
             WHEN priority = 'MEDIUM' THEN 2
             WHEN priority = 'HIGH' THEN 3
+            WHEN priority = 'NONE' THEN 4
         END
     """)
     fun getTasksByLowestPriority(): Flow<List<Task>>
@@ -31,6 +35,7 @@ interface TaskDao {
             WHEN priority = 'HIGH' THEN 1
             WHEN priority = 'MEDIUM' THEN 2
             WHEN priority = 'LOW' THEN 3
+            WHEN priority = 'NONE' THEN 4
         END
     """)
     fun getTasksByHighestPriority(): Flow<List<Task>>

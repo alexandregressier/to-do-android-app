@@ -18,6 +18,9 @@ class TaskRepository @Inject constructor(
     val getAllTasks: Flow<List<Task>> =
         taskDao.getAllTasks()
 
+    fun getTasksByPriority(priority: Task.Priority) =
+        taskDao.getTasksByPriority(priority)
+
     val getTasksByLowestPriority: Flow<List<Task>> =
         taskDao.getTasksByLowestPriority()
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.gressier.todo.data.models.Task
 import dev.gressier.todo.data.models.TaskId
+import dev.gressier.todo.data.repositories.DataStoreRepository
 import dev.gressier.todo.data.repositories.TaskRepository
 import dev.gressier.todo.navigation.TaskListAction
 import dev.gressier.todo.util.Config
@@ -22,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SharedViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
+    private val dataStoreRepository: DataStoreRepository,
 ) : ViewModel() {
 
     private val _tasks = MutableStateFlow<RequestState<List<Task>>>(RequestState.Idle)
@@ -29,6 +31,9 @@ class SharedViewModel @Inject constructor(
 
     val isSearchBarOpened = mutableStateOf(false)
     val searchText = mutableStateOf("")
+
+    val sortingOrder = mutableStateOf(Task.SortingOrder.NONE)
+    val filteringPriority = mutableStateOf(Task.Priority.NONE)
 
     private val taskId: MutableState<TaskId?> = mutableStateOf(null)
     val title = mutableStateOf("")
@@ -67,15 +72,6 @@ class SharedViewModel @Inject constructor(
         } ?: getAllTasks()
     }
 
-    fun openTaskSearch() {
-        isSearchBarOpened.value = true
-    }
-
-    fun closeTaskSearch() {
-        isSearchBarOpened.value = false
-        searchText.value = ""
-    }
-
     fun loadTaskInTaskForm(id: TaskId) {
         try {
             viewModelScope.launch {
@@ -108,6 +104,54 @@ class SharedViewModel @Inject constructor(
         title.value = ""
         description.value = ""
         priority.value = Task.Priority.NONE
+    }
+
+    fun openTaskSearch() {
+        isSearchBarOpened.value = true
+    }
+
+    fun closeTaskSearch() {
+        isSearchBarOpened.value = false
+        searchText.value = ""
+    }
+
+    fun sortTasks() {
+        sortingOrder.value.takeIf { it != Task.SortingOrder.NONE }?.let { order ->
+            _tasks.value = RequestState.Loading
+            try {
+                viewModelScope.launch {
+                        when (order) {
+                        Task.SortingOrder.DESCENDING -> taskRepository.getTasksByHighestPriority
+                        Task.SortingOrder.ASCENDING -> taskRepository.getTasksByLowestPriority
+                        else -> null
+                    }?.run {
+                        collect { tasks ->
+                            _tasks.value = RequestState.Success(tasks)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("SharedViewModel", "Could not sort tasks")
+                _tasks.value = RequestState.Error(e)
+            }
+        }?: getAllTasks()
+    }
+
+    fun filterTasks() {
+        // If NONE is the filtering priority, all the tasks are retrieved
+        filteringPriority.value.takeIf { it != Task.Priority.NONE }?.let { priority ->
+            _tasks.value = RequestState.Loading
+            try {
+                viewModelScope.launch {
+                    taskRepository.getTasksByPriority(priority).collect { tasks ->
+                        _tasks.value = RequestState.Success(tasks)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("SharedViewModel", "Could not filter tasks")
+                _tasks.value = RequestState.Error(e)
+            }
+        }?: getAllTasks()
     }
 
     fun deleteAllTasks() {

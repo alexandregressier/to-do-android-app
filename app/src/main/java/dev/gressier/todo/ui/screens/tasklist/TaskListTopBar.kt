@@ -24,6 +24,7 @@ import dev.gressier.todo.components.TaskPriorityItem
 import dev.gressier.todo.data.models.Task
 import dev.gressier.todo.ui.theme.*
 import dev.gressier.todo.ui.viewmodels.SharedViewModel
+import dev.gressier.todo.util.capitalize
 
 @Composable
 fun TaskListTopBar(
@@ -31,10 +32,14 @@ fun TaskListTopBar(
     isSearchBarOpened: Boolean,
     searchText: String,
 ) {
+    var sortingOrder by sharedViewModel.sortingOrder
+    var filteringPriority by sharedViewModel.filteringPriority
+
     if (!isSearchBarOpened)
         DefaultTaskListTopBar(
             onSearchTasksClick = sharedViewModel::openTaskSearch,
-            onSortTasksClick = {},
+            onSortTasksClick = { sortingOrder = it; sharedViewModel.sortTasks() },
+            onFilterTasksClick = { filteringPriority = it; sharedViewModel.filterTasks() },
             onDeleteAllClick = sharedViewModel::deleteAllTasks,
         )
     else
@@ -52,7 +57,8 @@ fun TaskListTopBar(
 @Composable
 fun DefaultTaskListTopBar(
     onSearchTasksClick: () -> Unit = {},
-    onSortTasksClick: (Task.Priority) -> Unit = {},
+    onSortTasksClick: (Task.SortingOrder) -> Unit = {},
+    onFilterTasksClick: (Task.Priority) -> Unit = {},
     onDeleteAllClick: () -> Unit = {},
 ) {
     TopAppBar(
@@ -62,6 +68,7 @@ fun DefaultTaskListTopBar(
         actions = {
             SearchTasksAction(onSearchTasksClick)
             SortTasksAction(onSortTasksClick)
+            FilterTasksAction(onFilterTasksClick)
             ShowMoreAction(onDeleteAllClick)
         },
         backgroundColor = MaterialTheme.colors.topBarBackgroundColor,
@@ -80,10 +87,35 @@ fun SearchTasksAction(onClick: () -> Unit) {
 }
 
 @Composable
-fun SortTasksAction(onClick: (Task.Priority) -> Unit) {
+fun SortTasksAction(onClick: (Task.SortingOrder) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
 
-    IconButton(onClick = { expanded = true }) {
+    IconButton({ expanded = true }) {
+        Icon(
+            painterResource(R.drawable.mdi_sort),
+            stringResource(R.string.description_sort_tasks),
+            tint = MaterialTheme.colors.topBarContentColor,
+        )
+        DropdownMenu(expanded, onDismissRequest = { expanded = false }) {
+            Task.SortingOrder.values().forEach { order ->
+                DropdownMenuItem({ onClick(order); expanded = false }) {
+                    Text(
+                        order.name.capitalize(),
+                        Modifier.padding(start = largePadding),
+                        MaterialTheme.colors.onSurface,
+                        style = Typography.subtitle1,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun FilterTasksAction(onClick: (Task.Priority) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+
+    IconButton({ expanded = true }) {
         Icon(
             painterResource(R.drawable.ic_filter_list),
             stringResource(R.string.description_sort_tasks),
@@ -140,7 +172,9 @@ fun SearchTasksAppBar(
     var deleteTextBeforeClosing by remember { mutableStateOf(false) }
 
     Surface(
-        Modifier.fillMaxWidth().height(topBarHeight),
+        Modifier
+            .fillMaxWidth()
+            .height(topBarHeight),
         color = MaterialTheme.colors.topBarBackgroundColor,
         elevation = AppBarDefaults.TopAppBarElevation,
     ) {

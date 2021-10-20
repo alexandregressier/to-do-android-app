@@ -9,7 +9,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
-import dev.gressier.todo.data.models.TaskSortingOrder
+import dev.gressier.todo.data.models.Task
 import dev.gressier.todo.util.Config
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -24,22 +24,22 @@ class DataStoreRepository @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
     private object Keys {
-        val taskSortingOrder = stringPreferencesKey("taskSortingOrder")
+        val TaskSortingOrder = stringPreferencesKey("Task.SortingOrder")
     }
 
-    val taskSortingOrder: Flow<TaskSortingOrder> =
+    val TaskSortingOrder: Flow<Task.SortingOrder> =
         context.dataStore.data
             .catch { e -> when (e) {
                 is IOException -> emit(emptyPreferences())
                 else -> throw e
             }}
             .map { settings ->
-                settings[Keys.taskSortingOrder]?.let{ TaskSortingOrder.valueOf(it) } ?: TaskSortingOrder.NONE
+                settings[Keys.TaskSortingOrder]?.let{ Task.SortingOrder.valueOf(it) } ?: Task.SortingOrder.NONE
             }
 
-    suspend fun writeTaskSortingOrder(order: TaskSortingOrder) {
+    suspend fun writeTaskSortingOrder(order: Task.SortingOrder) {
         context.dataStore.edit { settings ->
-            settings[Keys.taskSortingOrder] = order.name
+            settings[Keys.TaskSortingOrder] = order.name
         }
     }
 }

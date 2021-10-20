@@ -63,7 +63,7 @@ fun TaskPriorityDropdownMenu(
             )
         }
         DropdownMenu(expanded, onDismissRequest = { expanded = false }, Modifier.fillMaxWidth(0.94f)) {
-            Task.Priority.values().forEach { priority ->
+            Task.Priority.values().toList().asReversed().forEach { priority ->
                 DropdownMenuItem({ onSelect(priority); expanded = false }) {
                     TaskPriorityItem(priority)
                 }
