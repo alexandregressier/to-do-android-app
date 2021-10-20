@@ -18,6 +18,10 @@ val LowPriorityColor = Color(0xFF00C980)
 val MediumPriorityColor = Color(0xFFFFC114)
 val HighPriorityColor = Color(0xFFFF4646)
 
+// Splash Screen
+val Colors.splashScreenBackgroundColor: Color
+    @Composable get() = Purple700.takeIf { isLight } ?: Color.Black
+
 // Top bar
 val Colors.topBarBackgroundColor: Color
     @Composable get() = Purple500.takeIf { isLight } ?: Color.Black

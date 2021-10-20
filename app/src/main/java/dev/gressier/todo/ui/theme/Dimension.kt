@@ -6,6 +6,8 @@ val smallPadding = 6.dp
 val mediumPadding = 8.dp
 val largePadding = 12.dp
 
+val splashScreenLogoHeight = 100.dp
+
 val topBarHeight = 56.dp
 
 val taskPriorityIndicatorSize = 16.dp

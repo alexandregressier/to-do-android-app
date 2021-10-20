@@ -23,6 +23,8 @@
     <!-- TODO: describe other icons -->
 
     <!-- Descriptions -->
+    <string name="description_todo_app_logo">To Do App Logo</string>
+
     <string name="description_empty_task_list">No tasks</string>
 
     <string name="description_add_task">Add a task</string>
